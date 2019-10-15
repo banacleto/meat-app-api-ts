@@ -2,7 +2,9 @@ import * as fastify from "fastify"
 import * as blipp from "fastify-blipp"
 import * as cors from "fastify-cors"
 import * as swagger from "fastify-swagger"
+import * as fs from "fs"
 import { IncomingMessage, Server, ServerResponse } from "http"
+import * as path from "path"
 import { corsOptions } from "./config/cors"
 import { swaggerOptions } from "./config/swagger"
 import db from "./modules/db"
@@ -12,8 +14,14 @@ import restaurantRoutes from "./modules/routes/restaurant"
 import reviewRoutes from "./modules/routes/review"
 import statusRoutes from "./modules/routes/status"
 
-// Creates a simple fastify server
-const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify()
+// Creates a simple fastify server with HTTPS
+const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({
+    https: {
+        allowHTTP1: true,
+        key: fs.readFileSync(path.join(__dirname, '..', 'security/keys', 'key.pem')),
+        cert: fs.readFileSync(path.join(__dirname, '..', 'security/keys', 'cert.pem'))
+    }
+})
 
 server.register(cors, corsOptions)
 server.register(db, { uri: "mongodb://localhost/meatappdb" })
