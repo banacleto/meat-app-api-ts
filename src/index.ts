@@ -8,6 +8,7 @@ import * as path from "path"
 import { corsOptions } from "./config/cors"
 import { swaggerOptions } from "./config/swagger"
 import db from "./modules/db"
+import handleAuthentication from "./modules/routes/login"
 import menuItemRoutes from "./modules/routes/menu-item"
 import orderRoutes from "./modules/routes/order"
 import restaurantRoutes from "./modules/routes/restaurant"
@@ -29,6 +30,7 @@ server.register(blipp)
 server.register(swagger, swaggerOptions)
 
 // Register routes
+server.register(handleAuthentication)
 server.register(restaurantRoutes)
 server.register(menuItemRoutes)
 server.register(reviewRoutes)
