@@ -7,8 +7,9 @@ export default fp(async (server, opts, next) => {
         try {
             const user: User = request.body
             if (isValid(user)) {
-                const dbUser: User = users[user.email]
-                reply.send({ name: dbUser.name, email: dbUser.email })
+                const dbUser = users[user.email]
+                const token = server.jwt.sign({ sub: dbUser.email, iss: 'meat-app-api-ts' })
+                reply.send({ name: dbUser.name, email: dbUser.email, accessToken: token })
             } else {
                 reply.send({ msg: 'Dados Inválidos.' })
             }
@@ -23,8 +24,5 @@ function isValid(user: User): boolean {
         return false
     }
     const dbUser = users[user.email]
-    
-    console.log(dbUser)
-
     return dbUser !== undefined && dbUser.matches(user)
 }

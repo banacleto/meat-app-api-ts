@@ -6,9 +6,8 @@
 
 - TypeScript
 - Node.js
-- Fastify (CORS, Blipp)
+- Fastify (Plugin, CORS, Blipp, JWT, Swagger)
 - REST APIs
-- Swagger
 - MongoDB
 - Mongoose
 
@@ -26,7 +25,7 @@ npx gitignore node
 
 ### Install all the dependencies that we will need
 
-`npm i typescript @types/node eslint eslint-plugin-import nodemon ts-node-dev mongoose fastify fastify-plugin fastify-cors fastify-blipp fastify-swagger boom`
+`npm i typescript @types/node eslint eslint-plugin-import nodemon ts-node-dev mongoose fastify fastify-plugin fastify-cors fastify-blipp fastify-swagger fastify-jwt boom`
 
 ### Below is a brief description of what each package does, quoted from their respective websites:
 
@@ -51,6 +50,8 @@ npx gitignore node
 **fastify-blipp** prints your routes to the console. So each time your server starts, you know which endpoints are available.
 
 **fastify-swagger** is a swagger documentation generator for fastify. It uses the schemas you declare in your routes to generate a swagger compliant doc.
+
+**fastify-jwt** JWT utils for Fastify, internally uses jsonwebtoken.
 
 **boom** provides a set of utilities for returning HTTP errors.
 
