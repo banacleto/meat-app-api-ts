@@ -12,7 +12,7 @@ export const swaggerOptions = {
             description: 'Find more info here'
         },
         host: 'localhost:3000',
-        schemes: ['http'],
+        schemes: ['https'],
         consumes: ['application/json'],
         produces: ['application/json']
     }

@@ -1,6 +1,6 @@
 import * as boom from "boom"
 import * as fp from "fastify-plugin"
-import { User, users } from "../../../models/User"
+import { User, users } from "../../models/User"
 
 export default fp(async (server, opts, next) => {
     server.post("/login", {}, async (request, reply) => {
