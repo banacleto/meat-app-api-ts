@@ -4,21 +4,24 @@ import { User, users } from "../../models/User"
 
 export default fp(async (server, opts, next) => {
     // Get all restaurants
-    server.get("/api/restaurants", {}, async (request, reply) => {
-        try {
-            let restaurants = []
-            if (request.query.q) {
-                let regex = new RegExp(request.query.q, "i")
-                let query = { $or: [{ name: regex }, { category: regex }, { about: regex }] }
-                restaurants = await server.db.models.restaurant.find(query)
+    server.get("/api/restaurants", opts, async (request, reply) => {
+        async function route(request, reply) {
+            try {
+                let restaurants = []
+                if (request.query.q) {
+                    let regex = new RegExp(request.query.q, "i")
+                    let query = { $or: [{ name: regex }, { category: regex }, { about: regex }] }
+                    restaurants = await server.db.models.restaurant.find(query)
+                }
+                else {
+                    restaurants = await server.db.models.restaurant.find()
+                }
+                return reply.send(restaurants);
+            } catch (err) {
+                throw boom.boomify(err)
             }
-            else {
-                restaurants = await server.db.models.restaurant.find()
-            }
-            return reply.send(restaurants);
-        } catch (err) {
-            throw boom.boomify(err)
         }
+        opts.authz(request, reply, route)
     })
 
     // Get single restaurant by id
