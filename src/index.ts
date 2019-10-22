@@ -41,7 +41,7 @@ server.register(routes, {
                 if (decoded) {
                     next(request, reply)
                 } else {
-                    reply.write({ msg: 'Não autorizado' })
+                    reply.send({ msg: 'Não autorizado' })
                 }
             })
         }
