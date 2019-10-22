@@ -34,17 +34,6 @@ server.register(auth)
 server.register(authz)
 server.register(routes)
 
-function extractToken(request): string {
-    let token = undefined
-    if (request.headers && request.headers.authorization) {
-        const parts: string[] = request.headers.authorization.split(' ')
-        if (parts.length === 2 && parts[0] === 'Bearer') {
-            token = parts[1]
-        }
-    }
-    return token
-}
-
 const start = async () => {
     try {
         await server.listen(3000, "0.0.0.0")
