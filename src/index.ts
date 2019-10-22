@@ -10,9 +10,9 @@ import { corsOptions } from "./config/cors"
 import { jwtOptions } from "./config/jwt"
 import { swaggerOptions } from "./config/swagger"
 import auth from "./modules/authentication"
+import authz from "./modules/authentication/authz"
 import db from "./modules/db"
 import routes from "./modules/routes"
-import authz from "./modules/authentication/authz"
 
 // Creates a simple fastify server with HTTPS
 const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({
