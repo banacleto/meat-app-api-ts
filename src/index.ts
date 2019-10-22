@@ -9,9 +9,10 @@ import * as path from "path"
 import { corsOptions } from "./config/cors"
 import { jwtOptions } from "./config/jwt"
 import { swaggerOptions } from "./config/swagger"
-import authentication from "./modules/authentication"
+import auth from "./modules/authentication"
 import db from "./modules/db"
 import routes from "./modules/routes"
+import authz from "./modules/authentication/authz"
 
 // Creates a simple fastify server with HTTPS
 const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({
@@ -29,24 +30,9 @@ server.register(swagger, swaggerOptions)
 server.register(jwt, jwtOptions)
 
 // Register routes
-server.register(authentication)
-server.register(routes, {
-    authz: function (request, reply, next) {
-        const token = extractToken(request)
-        if (!token) {
-            reply.header('WWW-Authenticate', 'Bearer token_type="JWT"')
-            reply.send({ msg: 'Você precisa se autenticar.' })
-        } else {
-            server.jwt.verify(token, (error, decoded) => {
-                if (decoded) {
-                    next(request, reply)
-                } else {
-                    reply.send({ msg: 'Não autorizado' })
-                }
-            })
-        }
-    }
-})
+server.register(auth)
+server.register(authz)
+server.register(routes)
 
 function extractToken(request): string {
     let token = undefined
