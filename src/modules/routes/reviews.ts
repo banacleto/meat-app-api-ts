@@ -1,6 +1,5 @@
 import * as boom from "boom"
 import * as fp from "fastify-plugin"
-import { authorization } from "../authorization"
 
 export default fp(async (server, opts, next) => {
     // Get all reviews
@@ -14,9 +13,6 @@ export default fp(async (server, opts, next) => {
             } catch (err) {
                 throw boom.boomify(err)
             }
-        },
-        onRequest: function (request, reply, next) {
-            authorization(server, request, reply, next)
         }
     })
 
@@ -32,9 +28,6 @@ export default fp(async (server, opts, next) => {
             } catch (err) {
                 throw boom.boomify(err)
             }
-        },
-        onRequest: function (request, reply, next) {
-            authorization(server, request, reply, next)
         }
     })
 
@@ -50,9 +43,6 @@ export default fp(async (server, opts, next) => {
             } catch (err) {
                 throw boom.boomify(err)
             }
-        },
-        onRequest: function (request, reply, next) {
-            authorization(server, request, reply, next)
         }
     })
 
@@ -67,9 +57,6 @@ export default fp(async (server, opts, next) => {
             } catch (err) {
                 throw boom.boomify(err)
             }
-        },
-        onRequest: function (request, reply, next) {
-            authorization(server, request, reply, next)
         }
     })
 
@@ -87,9 +74,6 @@ export default fp(async (server, opts, next) => {
             } catch (err) {
                 throw boom.boomify(err)
             }
-        },
-        onRequest: function (request, reply, next) {
-            authorization(server, request, reply, next)
         }
     })
 
@@ -105,9 +89,6 @@ export default fp(async (server, opts, next) => {
             } catch (err) {
                 throw boom.boomify(err)
             }
-        },
-        onRequest: function (request, reply, next) {
-            authorization(server, request, reply, next)
         }
     })
 })

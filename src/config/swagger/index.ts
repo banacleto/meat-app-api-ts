@@ -1,5 +1,5 @@
 export const swaggerOptions = {
-    routePrefix: '/documentation',
+    routePrefix: '/docs',
     exposeRoute: true,
     swagger: {
         info: {
