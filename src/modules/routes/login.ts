@@ -21,7 +21,7 @@ export default fp(async (server, opts, next) => {
                 const user: User = request.body
                 if (isValid(user)) {
                     const dbUser = users[user.email]
-                    const token = server.jwt.sign({ subscriber: dbUser.email, issuer: 'meat-app-api-ts' })
+                    const token = server.jwt.sign({ subject: dbUser.email, issuer: 'meat-app-api-ts' })
                     reply.send({ name: dbUser.name, email: dbUser.email, accessToken: token })
                 } else {
                     reply.send({ msg: 'Dados Inválidos.' })
