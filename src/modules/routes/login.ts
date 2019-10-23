@@ -5,7 +5,7 @@ import { User, users } from "../../models/User"
 export default fp(async (server, opts, next) => {
     server.route({
         method: 'POST',
-        url: '/login',
+        url: '/api/login',
         schema: {
             body: {
                 type: 'object',
