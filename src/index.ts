@@ -9,9 +9,12 @@ import * as path from "path"
 import { corsOptions } from "./config/cors"
 import { jwtOptions } from "./config/jwt"
 import { swaggerOptions } from "./config/swagger"
-import auth from "./modules/authentication"
 import db from "./modules/db"
-import routes from "./modules/routes"
+import login from "./modules/routes/login"
+import restaurants from "./modules/routes/restaurants"
+import menu from "./modules/routes/menu"
+import reviews from "./modules/routes/reviews"
+import orders from "./modules/routes/orders"
 
 // Creates a simple fastify server with HTTPS
 const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({
@@ -29,9 +32,11 @@ server.register(swagger, swaggerOptions)
 server.register(jwt, jwtOptions)
 
 // Register routes
-server.register(auth)
-// server.register(authz)
-server.register(routes)
+server.register(login)
+server.register(restaurants)
+server.register(menu)
+server.register(reviews)
+server.register(orders)
 
 const start = async () => {
     try {
