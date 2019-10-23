@@ -10,7 +10,6 @@ import { corsOptions } from "./config/cors"
 import { jwtOptions } from "./config/jwt"
 import { swaggerOptions } from "./config/swagger"
 import auth from "./modules/authentication"
-import authz from "./modules/authentication/authz"
 import db from "./modules/db"
 import routes from "./modules/routes"
 
@@ -31,7 +30,7 @@ server.register(jwt, jwtOptions)
 
 // Register routes
 server.register(auth)
-server.register(authz)
+// server.register(authz)
 server.register(routes)
 
 const start = async () => {

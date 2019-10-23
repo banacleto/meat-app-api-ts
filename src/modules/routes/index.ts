@@ -1,23 +1,29 @@
 import * as boom from "boom"
 import * as fp from "fastify-plugin"
-import { User, users } from "../../models/User"
+import { authorization } from "../../modules/authentication/authz"
 
 export default fp(async (server, opts, next) => {
-    // Get all restaurants
-    server.get("/api/restaurants", opts, async (request, reply) => {
-        try {
-            let restaurants = []
-            if (request.query.q) {
-                let regex = new RegExp(request.query.q, "i")
-                let query = { $or: [{ name: regex }, { category: regex }, { about: regex }] }
-                restaurants = await server.db.models.restaurant.find(query)
+    server.route({
+        method: 'GET',
+        url: '/api/restaurants',
+        handler: async (request, reply) => {
+            try {
+                let restaurants = []
+                if (request.query.q) {
+                    let regex = new RegExp(request.query.q, "i")
+                    let query = { $or: [{ name: regex }, { category: regex }, { about: regex }] }
+                    restaurants = await server.db.models.restaurant.find(query)
+                }
+                else {
+                    restaurants = await server.db.models.restaurant.find()
+                }
+                return reply.send(restaurants);
+            } catch (err) {
+                throw boom.boomify(err)
             }
-            else {
-                restaurants = await server.db.models.restaurant.find()
-            }
-            return reply.send(restaurants);
-        } catch (err) {
-            throw boom.boomify(err)
+        },
+        onRequest: function (request, reply, next) {
+            authorization(server, request, reply, next)
         }
     })
 
