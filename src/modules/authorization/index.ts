@@ -1,19 +1,19 @@
 import * as fastify from "fastify";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
-export function authorization(server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse>, 
-    request: fastify.FastifyRequest<IncomingMessage, fastify.DefaultQuery, fastify.DefaultParams, fastify.DefaultHeaders, any>, 
+export function authorization(server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse>,
+    request: fastify.FastifyRequest<IncomingMessage, fastify.DefaultQuery, fastify.DefaultParams, fastify.DefaultHeaders, any>,
     reply: fastify.FastifyReply<ServerResponse>, next) {
     const token = extractToken(request)
     if (!token) {
         reply.header('WWW-Authenticate', 'Bearer token_type="JWT"')
-        reply.send({ msg: 'Você precisa se autenticar.' })
+        reply.status(401).send({ msg: 'Você precisa se autenticar.' })
     } else {
         server.jwt.verify(token, (error, decoded) => {
             if (decoded) {
                 next()
             } else {
-                reply.send({ msg: 'Não autorizado' })
+                reply.status(403).send({ msg: 'Não autorizado' })
             }
         })
     }

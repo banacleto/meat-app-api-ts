@@ -24,7 +24,7 @@ export default fp(async (server, opts, next) => {
                     const token = server.jwt.sign({ subject: dbUser.email, issuer: 'meat-app-api-ts' })
                     reply.send({ name: dbUser.name, email: dbUser.email, accessToken: token })
                 } else {
-                    reply.send({ msg: 'Dados Inválidos.' })
+                    reply.status(403).send({ msg: 'Dados Inválidos.' })
                 }
             } catch (err) {
                 throw boom.boomify(err)
