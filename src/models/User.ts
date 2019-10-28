@@ -1,5 +1,9 @@
 export class User {
-    constructor(public email: string, public name: string, private password: string) { }
+    public fullName: string
+    constructor(public email: string, public firstName: string, public middleName: string,
+        public lastName: string, private password: string) {
+        this.fullName = this.firstName + ' ' + this.middleName + ' ' + this.lastName
+    }
 
     matches(another: User): boolean {
         return another !== undefined &&
@@ -9,6 +13,6 @@ export class User {
 }
 
 export const users: { [key: string]: User } = {
-    "anacleto@gmail.com": new User('anacleto@gmail.com', 'Bruno Anacleto', 'bruno123'),
-    "yagosansz@gmail.com": new User('yagosansz@gmail.com', 'Yago Santos', 'yago123')
+    "anacleto@gmail.com": new User('anacleto@gmail.com', 'Bruno', 'Anacleto', 'Santos de Sousa', 'bruno123'),
+    "yagosansz@gmail.com": new User('yagosansz@gmail.com', 'Yago', '', 'Santos de Sousa', 'yago123')
 }
