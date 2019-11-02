@@ -23,7 +23,12 @@ export const OrderSchema: Schema = new Schema({
     number: Number,
     optionalAddress: String,
     paymentOption: String,
-    orderItems: [new Schema({ quantity: Number, menuId: Schema.Types.ObjectId })]
+    orderItems: [new Schema({
+        menuId: Schema.Types.ObjectId,
+        name: String,
+        price: Number,
+        quantity: Number
+    })]
 })
 
 export const Order: Model<OrderModel> = model<OrderModel>("Order", OrderSchema)
