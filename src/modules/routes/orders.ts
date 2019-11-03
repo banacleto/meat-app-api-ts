@@ -14,10 +14,7 @@ export default fp(async (server, opts, next) => {
             } catch (err) {
                 throw boom.boomify(err)
             }
-        },
-        onRequest: function (request, reply, next) {
-            authorization(server, request, reply, next)
-        }
+        }, // onRequest: function (request, reply, next) { authorization(server, request, reply, next) }
     })
 
     // Get single order by id
@@ -52,6 +49,23 @@ export default fp(async (server, opts, next) => {
         },
         onRequest: function (request, reply, next) {
             authorization(server, request, reply, next)
+        }
+    })
+
+    // Update an existing order (don't use this)
+    server.route({
+        method: 'PUT',
+        url: '/api/orders/:id',
+        handler: async (request, reply) => {
+            try {
+                const _id = request.params.id
+                const order = request.body
+                const { ...updateData } = order
+                const update = await server.db.models.order.findByIdAndUpdate(_id, updateData, { new: true })
+                return update
+            } catch (err) {
+                throw boom.boomify(err)
+            }
         }
     })
 

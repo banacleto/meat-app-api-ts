@@ -1,5 +1,5 @@
 // Configuring CORS w/ Dynamic Origin
-const whitelist = ['http://localhost:4200']
+const whitelist = ['http://localhost:4200', 'http://localhost:4300']
 export const corsOptions = {
     origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1 || !origin) {
