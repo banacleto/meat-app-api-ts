@@ -11,10 +11,11 @@ import { jwtOptions } from "./config/jwt"
 import { swaggerOptions } from "./config/swagger"
 import db from "./modules/db"
 import login from "./modules/routes/login"
-import restaurants from "./modules/routes/restaurants"
 import menu from "./modules/routes/menu"
-import reviews from "./modules/routes/reviews"
 import orders from "./modules/routes/orders"
+import restaurants from "./modules/routes/restaurants"
+import reviews from "./modules/routes/reviews"
+import users from "./modules/routes/users"
 
 // Creates a simple fastify server with HTTPS
 const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({
@@ -33,6 +34,7 @@ server.register(jwt, jwtOptions)
 
 // Register routes
 server.register(login)
+server.register(users)
 server.register(restaurants)
 server.register(menu)
 server.register(reviews)

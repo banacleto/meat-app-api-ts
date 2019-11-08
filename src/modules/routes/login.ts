@@ -1,6 +1,6 @@
-import * as boom from "boom"
-import * as fp from "fastify-plugin"
-import { User, users } from "../../models/User"
+import * as boom from "boom";
+import * as fp from "fastify-plugin";
+import { IUser } from "models/User";
 
 export default fp(async (server, opts, next) => {
     server.route({
@@ -16,20 +16,13 @@ export default fp(async (server, opts, next) => {
                 required: ['email', 'password']
             }
         },
-        handler: (request, reply) => {
+        handler: async (request, reply) => {
             try {
-                const user: User = request.body
-                if (isValid(user)) {
-                    const dbUser = users[user.email]
-                    const token = server.jwt.sign({ subject: dbUser.email, issuer: 'meat-app-api-ts' })
-                    reply.send({
-                        firstName: dbUser.firstName,
-                        middleName: dbUser.middleName,
-                        lastName: dbUser.lastName,
-                        fullName: dbUser.fullName,
-                        email: dbUser.email,
-                        accessToken: token
-                    })
+                const user: IUser = await server.db.models.user.findOne({ email: request.body.email });
+                if (user && user.password == request.body.password) {
+                    const token = server.jwt.sign({ subject: user.email, issuer: 'meat-app-api-ts' })
+                    user.accessToken = token
+                    reply.send(user)
                 } else {
                     reply.status(403).send({ msg: 'Dados Inválidos.' })
                 }
@@ -39,11 +32,3 @@ export default fp(async (server, opts, next) => {
         }
     })
 })
-
-function isValid(user: User): boolean {
-    if (!user) {
-        return false
-    }
-    const dbUser = users[user.email]
-    return dbUser !== undefined && dbUser.matches(user)
-}

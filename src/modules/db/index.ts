@@ -5,6 +5,7 @@ import { MenuItem, MenuItemModel } from "../../models/MenuItem"
 import { Order, OrderModel } from "../../models/Order"
 import { Restaurant, RestaurantModel } from "../../models/Restaurant"
 import { Review, ReviewModel } from "../../models/Review"
+import { User, UserModel } from "../../models/User"
 
 /**
  * Declares new interfaces Db and Model.
@@ -13,7 +14,8 @@ export interface Models {
     restaurant: Model<RestaurantModel>,
     menuItem: Model<MenuItemModel>,
     review: Model<ReviewModel>,
-    order: Model<OrderModel>
+    order: Model<OrderModel>,
+    user: Model<UserModel>
 }
 
 export interface Db {
@@ -37,7 +39,8 @@ export default fp(async (fastify, opts: { uri: string }, next) => {
         restaurant: Restaurant,
         menuItem: MenuItem,
         review: Review,
-        order: Order
+        order: Order,
+        user: User
     }
 
     fastify.decorate("db", { models })

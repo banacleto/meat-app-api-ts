@@ -1,18 +1,32 @@
-export class User {
-    public fullName: string
-    constructor(public email: string, public firstName: string, public middleName: string,
-        public lastName: string, private password: string) {
-        this.fullName = this.firstName + ' ' + this.middleName + ' ' + this.lastName
-    }
+import { Document, Model, model, Schema } from "mongoose"
 
-    matches(another: User): boolean {
-        return another !== undefined &&
-            another.email === this.email &&
-            another.password === this.password
-    }
+/**
+ * Defines the User model for our MongoDb document
+ */
+export interface IUser extends Document {
+    firstName: String
+    middleName?: String
+    lastName: String
+    email: String
+    password: String
+    address: String
+    number: Number
+    optionalAddress?: String
+    accessToken?: String
 }
 
-export const users: { [key: string]: User } = {
-    "anacleto@gmail.com": new User('anacleto@gmail.com', 'Bruno', 'Anacleto', 'Santos de Sousa', 'bruno123'),
-    "yagosansz@gmail.com": new User('yagosansz@gmail.com', 'Yago', '', 'Santos de Sousa', 'yago123')
-}
+export interface UserModel extends IUser { }
+
+export const UserSchema: Schema = new Schema({
+    firstName: { type: String, required: true },
+    middleName: String,
+    lastName: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    address: { type: String, required: true },
+    number: { type: Number, required: true },
+    optionalAddress: String,
+    accessToken: String
+})
+
+export const User: Model<UserModel> = model<UserModel>("User", UserSchema)

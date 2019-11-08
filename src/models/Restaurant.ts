@@ -7,7 +7,7 @@ export interface RestaurantDocument extends Document {
     name: String
     category: String
     deliveryEstimate: String
-    rating: Number
+    rating?: Number
     imagePath: String
     about: String
     hours: String
@@ -16,13 +16,13 @@ export interface RestaurantDocument extends Document {
 export interface RestaurantModel extends RestaurantDocument { }
 
 export const RestaurantSchema: Schema = new Schema({
-    name: String,
-    category: String,
-    deliveryEstimate: String,
+    name: { type: String, required: true },
+    category: { type: String, required: true },
+    deliveryEstimate: { type: String, required: true },
     rating: Number,
-    imagePath: String,
-    about: String,
-    hours: String
+    imagePath: { type: String, required: true },
+    about: { type: String, required: true },
+    hours: { type: String, required: true }
 })
 
 export const Restaurant: Model<RestaurantModel> = model<RestaurantModel>("Restaurant", RestaurantSchema)

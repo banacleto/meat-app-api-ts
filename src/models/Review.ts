@@ -13,11 +13,11 @@ export interface ReviewDocument extends Document {
 export interface ReviewModel extends ReviewDocument { }
 
 export const ReviewSchema: Schema = new Schema({
-    name: String,
-    date: String,
-    rating: Number,
-    comments: String,
-    restaurantId: Schema.Types.ObjectId
+    name: { type: String, required: true },
+    date: { type: String, required: true },
+    rating: { type: Number, required: true },
+    comments: { type: String, required: true },
+    restaurantId: { type: Schema.Types.ObjectId, required: true }
 })
 
 export const Review: Model<ReviewModel> = model<ReviewModel>("Review", ReviewSchema)

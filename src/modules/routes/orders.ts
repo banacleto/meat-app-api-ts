@@ -14,7 +14,10 @@ export default fp(async (server, opts, next) => {
             } catch (err) {
                 throw boom.boomify(err)
             }
-        }, // onRequest: function (request, reply, next) { authorization(server, request, reply, next) }
+        }, 
+        onRequest: function (request, reply, next) {
+            authorization(server, request, reply, next) 
+        }
     })
 
     // Get single order by id
@@ -66,6 +69,9 @@ export default fp(async (server, opts, next) => {
             } catch (err) {
                 throw boom.boomify(err)
             }
+        },
+        onRequest: function (request, reply, next) {
+            authorization(server, request, reply, next)
         }
     })
 
@@ -86,5 +92,4 @@ export default fp(async (server, opts, next) => {
             authorization(server, request, reply, next)
         }
     })
-
 })
